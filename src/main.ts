@@ -4,11 +4,18 @@ import { env } from 'process';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 
+import * as cors from 'cors';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors();
+  app.use(
+    cors({
+      origin: '*', // Allow requests from this origin
+      credentials: true, // Allow credentials (cookies, headers, etc.)
+    }),
+  );
   const config = new DocumentBuilder()
     .setTitle('DevBook.uz')
     .setDescription('Nest.Js MongoDB REST API Documentation')
